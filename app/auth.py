@@ -67,8 +67,8 @@ def load_token(
     token: str, is_jwt=False, is_refresh=False
 ) -> (dict, datetime, datetime):
     payload: dict
-    now = datetime.now(timezone.utc)
-    expiry: datetime
+    now = datetime.now()
+    expiry: datetime = None
     if is_jwt:
         payload, headers = jwt_serializer.loads(token, return_header=True)
 
@@ -88,7 +88,7 @@ def load_token(
             expiry = timestamp + timedelta(seconds=VERIFICATION_TOKEN_EXPIRY_SECONDS)
             pass
 
-    if now >= expiry:
+    if expiry and now >= expiry:
         return payload, expiry, now
 
     return payload, None, None

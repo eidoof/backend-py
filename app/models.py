@@ -45,7 +45,7 @@ class UserInLogin(RWModel):
     password: str
 
 
-class UserInCreate(UserInLogin):
+class UserInRegister(UserInLogin):
     username: str
 
 

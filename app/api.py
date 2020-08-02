@@ -107,8 +107,8 @@ async def main():
     status_code=HTTP_201_CREATED,
 )
 async def register(
-    # Create the UserInCreate Model from the body
-    user: models.UserInCreate = Body(...),
+    # Create the UserInRegister Model from the body
+    user: models.UserInRegister = Body(...),
     db: AsyncIOMotorClient = Depends(db_get),
 ):
     # Check that the username and email is not taken by an existing user
@@ -116,7 +116,7 @@ async def register(
 
     async with await db.start_session() as session:
         async with session.start_transaction():
-            # Construct a UserInDB Model from the given UserInCreate Model
+            # Construct a UserInDB Model from the given UserInRegister Model
             db_user = models.UserInDB(**user.dict())
             db_user.salt = get_salt()
             # Set the user's password
